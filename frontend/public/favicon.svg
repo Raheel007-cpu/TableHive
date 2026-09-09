@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="TableHive">
+  <!-- Transparent background. Set fill on this rect for a solid favicon tile. -->
+  <rect width="64" height="64" rx="12" fill="none"/>
+
+  <!-- Regular hex helper: flat-top hex of radius r at (cx, cy)
+       points: cx±r, cy ; cx±r/2, cy±r*0.866 -->
+  <g stroke="#1A1A1A" stroke-width="2.2" stroke-linejoin="round">
+    <!-- bottom-left -->
+    <polygon points="16,42.5 8,37.9 8,28.7 16,24.1 24,28.7 24,37.9" fill="#E8B54A"/>
+    <!-- bottom-center (darker) -->
+    <polygon points="32,42.5 24,37.9 24,28.7 32,24.1 40,28.7 40,37.9" fill="#C9891A"/>
+    <!-- bottom-right -->
+    <polygon points="48,42.5 40,37.9 40,28.7 48,24.1 56,28.7 56,37.9" fill="#E8B54A"/>
+    <!-- top -->
+    <polygon points="32,26.3 24,21.7 24,12.5 32,7.9 40,12.5 40,21.7" fill="#F0C35C"/>
+  </g>
+</svg>
