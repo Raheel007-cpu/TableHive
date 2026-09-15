@@ -8,6 +8,7 @@ import connectDB from "./config/db.js";
 import authRouter from "./routes/authRoutes.js";
 import restaurantRouter from "./routes/restaurantRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
+import ownerRouter from "./routes/ownerRoutes.js";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use("/api/auth", authRouter)
 app.use("/api/restaurants", restaurantRouter)
 app.use("/api/bookings", bookingRouter)
+app.use("/api/owner", ownerRouter)
 
 //Global error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction)=>{
