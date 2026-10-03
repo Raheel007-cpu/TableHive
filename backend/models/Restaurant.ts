@@ -1,6 +1,6 @@
-import {Document, model, Schema, Types} from 'mongoose'
+import { Schema, model, Document, Types } from "mongoose";
 
-export interface IRestaurant extends Document{
+export interface IRestaurant extends Document {
     name: string;
     slug: string;
     description: string;
@@ -12,8 +12,8 @@ export interface IRestaurant extends Document{
     address: string;
     image: string;
     chef: string;
-    tags: String[];
-    availableSlots: string[]
+    tags: string[];
+    availableSlots: string[];
     featured: boolean;
     exclusive: boolean;
     owner: Types.ObjectId;
@@ -25,11 +25,11 @@ export interface IRestaurant extends Document{
 
 const RestaurantSchema = new Schema<IRestaurant>(
     {
-        name: {type: String, required: true, trim: true},
-        slug: {type: String, required: true, unique: true, trim: true, lowercase: true},
-        description: {type: String, required: true,},
-        cuisine: {type: String, trim: true, required: true},
-        priceRange: {type: String, enum:["$" , "$$" , "$$$", "$$$$"], required: true},
+        name: { type: String, required: true, trim: true },
+        slug: { type: String, required: true, unique: true, trim: true, lowercase: true },
+        description: { type: String, required: true },
+        cuisine: { type: String, required: true, trim: true },
+        priceRange: { type: String, enum: ["$", "$$", "$$$", "$$$$"], required: true },
         rating: { type: Number, default: 5.0, min: 1, max: 5 },
         reviewCount: { type: Number, default: 0 },
         location: { type: String, required: true, trim: true },
@@ -41,11 +41,10 @@ const RestaurantSchema = new Schema<IRestaurant>(
         featured: { type: Boolean, default: false },
         exclusive: { type: Boolean, default: false },
         owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
-        status: {type: String, enum:["pending" , "approved" , "rejected"], default: "pending"},
+        status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
         totalSeats: { type: Number, default: 20 },
     },
-    {timestamps: true}
+    { timestamps: true },
+);
 
-)
-
-export const Restaurant = model<IRestaurant>("Restaurant", RestaurantSchema)
+export const Restaurant = model<IRestaurant>("Restaurant", RestaurantSchema);

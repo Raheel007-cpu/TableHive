@@ -92,7 +92,7 @@ export default function AuthModal() {
                 <form onSubmit={handleSubmit} className="p-8 space-y-6 flex-1 flex flex-col justify-between">
                     <div>
                         <div className="text-center mb-8">
-                            <h2 className="font-display text-2xl font-medium text-primary tracking-tight">Welcome to QuickDine</h2>
+                            <h2 className="font-display text-2xl font-medium text-primary tracking-tight">Welcome to TableHive</h2>
                             <p className="text-xs text-black/55 mt-2 leading-relaxed">
                                 Access your exclusive reservations and curated dining profile.
                             </p>
@@ -114,7 +114,7 @@ export default function AuthModal() {
                                             required={!isLoginTab}
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
-                                            placeholder="Sarah Jenkins"
+                                            placeholder="Alexander Jones"
                                             className="w-full pl-7 pb-2 pt-1 text-sm bg-transparent border-b border-outline-variant/60 focus:border-secondary focus:outline-none transition-colors"
                                         />
                                     </div>
