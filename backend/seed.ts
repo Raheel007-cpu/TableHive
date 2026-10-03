@@ -4,7 +4,7 @@ dns.setServers(["8.8.8.8", "1.1.1.1"]);
 import "dotenv/config";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt"
-import { User } from "./models/user.js";
+import { User } from "./models/User.js";
 import { Restaurant } from "./models/Restaurant.js";
 import { Booking } from "./models/Booking.js";
 

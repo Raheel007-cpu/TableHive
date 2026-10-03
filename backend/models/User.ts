@@ -1,10 +1,10 @@
-import {Document, model, Schema} from 'mongoose'
+import { Schema, model, Document, Types } from "mongoose";
 
-export interface IUser extends Document{
+export interface IUser extends Document {
     name: string;
     email: string;
-    phone: string;
-    password: string;
+    password?: string;
+    phone?: string;
     role: "user" | "admin" | "owner";
     createdAt: Date;
     updatedAt: Date;
@@ -12,21 +12,21 @@ export interface IUser extends Document{
 
 const UserSchema = new Schema<IUser>(
     {
-        name: {type: String, required: true, trim: true},
-        email: {type: String, required: true, unique: true, trim: true, lowercase: true},
-        password: {type: String, required: true, minlength: 8},
-        phone: {type: String, trim: true, minlength: 8},
-        role: {type: String, enum:["user" , "admin" , "owner"], default: "user"},
+        name: { type: String, required: true, trim: true },
+        email: { type: String, required: true, unique: true, trim: true, lowercase: true },
+        password: { type: String, required: true, minlength: 6 },
+        phone: { type: String, trim: true },
+        role: { type: String, enum: ["user", "admin", "owner"], default: "user" },
     },
-    {timestamps: true}
+    { timestamps: true },
+);
 
-)
-//Remove password when converting to JSON
+// Remove password when converting to JSON
 UserSchema.set("toJSON", {
-    transform: (doc, ret)=>{
-        delete (ret as {password?: string}).password;
+    transform: (doc, ret) => {
+        delete ret.password;
         return ret;
-    }
-})
+    },
+});
 
-export const User = model<IUser>("User", UserSchema)
+export const User = model<IUser>("User", UserSchema);

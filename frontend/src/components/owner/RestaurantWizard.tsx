@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { Utensils, Upload, Image } from "lucide-react";
+import api from "../../lib/api.ts";
 import toast from "react-hot-toast";
-import { dummyRestaurant } from "../../assets/assets.ts";
 
 interface RestaurantWizardProps {
     setRestaurant: (restaurant: any) => void;
@@ -85,7 +85,8 @@ export default function RestaurantWizard({ setRestaurant }: RestaurantWizardProp
                 formData.append("image", imageFile);
             }
 
-            setRestaurant(dummyRestaurant[0]);
+            const res = await api.post("/owner/restaurant", formData);
+            setRestaurant(res.data);
             toast.success("Restaurant profile submitted successfully! Awaiting Admin approval.");
         } catch (error: any) {
             toast.error(error?.response?.data?.message || "Failed to register restaurant");
@@ -107,7 +108,9 @@ export default function RestaurantWizard({ setRestaurant }: RestaurantWizardProp
             <form onSubmit={handleCreateRestaurant} className="space-y-5 text-left">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                        <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">Restaurant Name</label>
+                        <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">
+                            Restaurant Name
+                        </label>
                         <input
                             type="text"
                             required
@@ -118,7 +121,9 @@ export default function RestaurantWizard({ setRestaurant }: RestaurantWizardProp
                         />
                     </div>
                     <div className="space-y-1">
-                        <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">Cuisine Type</label>
+                        <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">
+                            Cuisine Type
+                        </label>
                         <input
                             type="text"
                             required
@@ -144,11 +149,17 @@ export default function RestaurantWizard({ setRestaurant }: RestaurantWizardProp
 
                 {/* Cover Image Upload */}
                 <div className="space-y-1">
-                    <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">Restaurant Cover Image</label>
+                    <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">
+                        Restaurant Cover Image
+                    </label>
                     <div className="flex flex-col md:flex-row gap-4 items-center bg-surface-container-low/30 border border-outline-variant/40 p-4 rounded-sm">
                         <div className="relative w-32 h-24 bg-surface border border-outline-variant/30 rounded-sm overflow-hidden shrink-0 flex items-center justify-center">
                             {imagePreview ? (
-                                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                                <img
+                                    src={imagePreview}
+                                    alt="Preview"
+                                    className="w-full h-full object-cover"
+                                />
                             ) : (
                                 <Image size={24} className="text-black/30" />
                             )}
@@ -160,16 +171,27 @@ export default function RestaurantWizard({ setRestaurant }: RestaurantWizardProp
                             <label className="inline-flex items-center gap-1.5 px-4 py-2 border border-outline-variant/40 hover:border-primary hover:text-primary transition-colors text-[10px] font-medium tracking-wider uppercase rounded-sm cursor-pointer bg-white">
                                 <Upload size={12} />
                                 {imageFile ? "Change Image" : "Upload Image"}
-                                <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    className="hidden"
+                                />
                             </label>
-                            {imageFile && <span className="block text-[10px] text-secondary font-medium">Selected: {imageFile.name}</span>}
+                            {imageFile && (
+                                <span className="block text-[10px] text-secondary font-medium">
+                                    Selected: {imageFile.name}
+                                </span>
+                            )}
                         </div>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1">
-                        <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">Price Range</label>
+                        <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">
+                            Price Range
+                        </label>
                         <select
                             value={priceRange}
                             onChange={(e) => setPriceRange(e.target.value)}
@@ -182,7 +204,9 @@ export default function RestaurantWizard({ setRestaurant }: RestaurantWizardProp
                         </select>
                     </div>
                     <div className="space-y-1">
-                        <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">Location (City)</label>
+                        <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">
+                            Location (City)
+                        </label>
                         <input
                             type="text"
                             required
@@ -220,7 +244,9 @@ export default function RestaurantWizard({ setRestaurant }: RestaurantWizardProp
                         />
                     </div>
                     <div className="space-y-1">
-                        <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">Executive Chef</label>
+                        <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">
+                            Executive Chef
+                        </label>
                         <input
                             type="text"
                             required
@@ -233,7 +259,9 @@ export default function RestaurantWizard({ setRestaurant }: RestaurantWizardProp
                 </div>
 
                 <div className="space-y-1">
-                    <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">Tags (comma separated)</label>
+                    <label className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">
+                        Tags (comma separated)
+                    </label>
                     <input
                         type="text"
                         value={tags}
@@ -277,3 +305,4 @@ export default function RestaurantWizard({ setRestaurant }: RestaurantWizardProp
         </div>
     );
 }
+

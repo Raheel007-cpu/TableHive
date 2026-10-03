@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { useAppContext } from "../context/AppContext.tsx";
-import { ShieldAlert } from "lucide-react";
+import { ShieldAlert, Store } from "lucide-react";
 import AuthModal from "./AuthModal.tsx";
 import Loader from "./Loader.tsx";
 
@@ -9,7 +10,14 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
-    const { isAuthenticated, user, loading, setAuthModalOpen } = useAppContext();
+    const { isAuthenticated, user, loading, setAuthModalOpen, becomeOwner } = useAppContext();
+    const [isBecomingOwner, setIsBecomingOwner] = useState(false);
+
+    const handleBecomeOwner = async () => {
+        setIsBecomingOwner(true);
+        await becomeOwner();
+        setIsBecomingOwner(false);
+    };
 
     if (loading) {
         return <Loader text="Loading Panel Access..." />;
@@ -22,7 +30,7 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
                     <ShieldAlert size={40} className="text-secondary mb-6" />
                     <h2 className="font-display text-2xl text-primary mb-3">Login to continue</h2>
                     <p className="text-sm text-black/55 mb-8 leading-relaxed">
-                        Reservation booking and dashboard management are reserved exclusively for registered QuickDine members.
+                        Reservation booking and dashboard management are reserved exclusively for registered TableHive members.
                     </p>
 
                     <div className="flex flex-col gap-3 w-full">
@@ -46,8 +54,20 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
                     <ShieldAlert size={40} className="text-error mb-6" />
                     <h2 className="font-display text-2xl text-primary mb-3">Access Denied</h2>
                     <p className="text-sm text-black/55 mb-8 leading-relaxed">
-                        You do not have the required permissions to access this dashboard.
+                        {user.role === "user" && allowedRoles.includes("owner")
+                            ? "Your account is registered as a diner. Upgrade it to access the restaurant portal."
+                            : "You do not have the required permissions to access this dashboard."}
                     </p>
+                    {user.role === "user" && allowedRoles.includes("owner") && (
+                        <button
+                            onClick={handleBecomeOwner}
+                            disabled={isBecomingOwner}
+                            className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary-container text-white py-3.5 px-4 text-xs font-medium tracking-widest uppercase transition-colors disabled:opacity-75"
+                        >
+                            <Store size={15} />
+                            {isBecomingOwner ? "UPDATING ACCOUNT..." : "CONTINUE AS RESTAURANT OWNER"}
+                        </button>
+                    )}
                 </div>
             </div>
         );

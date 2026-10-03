@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { approveRestaurants, getAdminStats, getAllRestaurants } from "../controllers/adminController.js";
-import { adminOnly, protect } from "../middlewares/auth.js";
+import { protect, adminOnly } from "../middlewares/auth.js";
+import { getAllRestaurants, approveRestaurant, getAdminStats } from "../controllers/adminController.js";
 
 const adminRouter = Router();
 
-adminRouter.use(protect)
-adminRouter.use(adminOnly)
+adminRouter.use(protect);
+adminRouter.use(adminOnly);
 
-adminRouter.get("/restaurants", getAllRestaurants)
-adminRouter.put("/restaurants/:id/approve", approveRestaurants)
-adminRouter.get("/stats", getAdminStats)
+adminRouter.get("/restaurants", getAllRestaurants);
+adminRouter.put("/restaurants/:id/approve", approveRestaurant);
+adminRouter.get("/stats", getAdminStats);
 
-export default adminRouter
+export default adminRouter;
