@@ -85,7 +85,11 @@ export default function RestaurantWizard({ setRestaurant }: RestaurantWizardProp
                 formData.append("image", imageFile);
             }
 
-            const res = await api.post("/owner/restaurant", formData);
+            const res = await api.post("/owner/restaurant", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
             setRestaurant(res.data);
             toast.success("Restaurant profile submitted successfully! Awaiting Admin approval.");
         } catch (error: any) {
@@ -305,4 +309,3 @@ export default function RestaurantWizard({ setRestaurant }: RestaurantWizardProp
         </div>
     );
 }
-

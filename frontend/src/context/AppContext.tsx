@@ -38,50 +38,56 @@ export const AppContextProvider = ({ children }: Props) => {
     const [isAuthModalOpen, setAuthModalOpen] = useState<boolean>(false);
 
     const login = async (email: string, password: string): Promise<boolean> => {
-        try{
+        try {
             setLoading(true);
-            const res = await api.post("/auth/login", {email, password});
-            const {token: userToken, ...UserData} = res.data;
+            const res = await api.post("/auth/login", { email, password });
+            const { token: userToken, ...UserData } = res.data;
 
-            localStorage.setItem("token", userToken)
-            setToken(userToken)
-            setUser(UserData)
-            toast.success(`Welcome Back, ${UserData.name}`)
+            localStorage.setItem("token", userToken);
+            setToken(userToken);
+            setUser(UserData);
+            toast.success(`Welcome Back, ${UserData.name}`);
             return true;
-        } catch(error: any){
+        } catch (error: any) {
             toast.error(error?.response?.data?.message || error?.message);
             return false;
-        }finally{
+        } finally {
             setLoading(false);
         }
     };
 
-    const register = async (name: string, email: string, password: string, phone?: string, role?: string): Promise<boolean> => {
-        try{
+    const register = async (
+        name: string,
+        email: string,
+        password: string,
+        phone?: string,
+        role?: string
+    ): Promise<boolean> => {
+        try {
             setLoading(true);
-            const res = await api.post("/auth/register", {name, email, password, phone, role});
-            const {token: userToken, ...userData} = res.data;
+            const res = await api.post("/auth/register", { name, email, password, phone, role });
+            const { token: userToken, ...userData } = res.data;
 
-            localStorage.setItem("token", userToken)
-            setToken(userToken)
-            setUser(userData)
-            toast.success(`Welcome to TableHive`)
+            localStorage.setItem("token", userToken);
+            setToken(userToken);
+            setUser(userData);
+            toast.success(`Welcome to TableHive`);
             return true;
-        } catch(error: any){
+        } catch (error: any) {
             toast.error(error?.response?.data?.message || error?.message);
             return false;
-        }finally{
+        } finally {
             setLoading(false);
         }
     };
 
     const becomeOwner = async (): Promise<boolean> => {
-        try{
+        try {
             const res = await api.post("/auth/become-owner");
             setUser(res.data);
             toast.success("Owner access enabled");
             return true;
-        } catch(error: any){
+        } catch (error: any) {
             toast.error(error?.response?.data?.message || error?.message);
             return false;
         }
@@ -97,12 +103,12 @@ export const AppContextProvider = ({ children }: Props) => {
     useEffect(() => {
         const loadUser = async () => {
             if (token) {
-                try{
-                    const res = await api.post("/auth/me")
-                    setUser(res.data)
-                } catch(error: any){
+                try {
+                    const res = await api.get("/auth/me"); 
+                    setUser(res.data);
+                } catch (error: any) {
                     toast.error(error?.response?.data?.message || error?.message);
-                    logout()
+                    logout();
                 }
             }
             setLoading(false);
