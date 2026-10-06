@@ -64,7 +64,7 @@ export const createOwnerRestaurant = async (req: AuthRequest, res: Response): Pr
         }
 
         // Handle image
-        let imageUrl = " ";
+        let imageUrl = "";
         if (req.file) {
             const result = await uploadToCloudinary(req.file.buffer);
             imageUrl = result.secure_url;

@@ -94,7 +94,11 @@ export default function OwnerProfileDetails({ restaurant, setRestaurant }: Owner
                 formData.append("image", imageFile);
             }
 
-            const res = await api.put("/owner/restaurant", formData);
+            const res = await api.put("/owner/restaurant", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
             setRestaurant(res.data);
             toast.success("Profile details updated successfully!");
         } catch (error: any) {
